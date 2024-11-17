@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Mainpage from './components/Mainpage';
 import { Toaster } from 'react-hot-toast';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/explanation" element={<h1>Why?</h1>} />
             <Route path="/about" element={<h1>About?</h1>} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>

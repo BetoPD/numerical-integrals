@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mafs, Coordinates, Plot, Text, Point } from 'mafs';
+import { Mafs, Coordinates, Plot, Text, Point, Polyline } from 'mafs';
 
 export default function Graph({ title, result, fx, xPoints, fxPoints }) {
   return (
@@ -19,9 +19,12 @@ export default function Graph({ title, result, fx, xPoints, fxPoints }) {
       <Text x={-5} y={5}>
         {title}
       </Text>
+
       <Text x={5} y={5}>
         Result: {result}
       </Text>
+
+      <Polyline points={xPoints.map((x, i) => [x, fxPoints[i]])} color="blue" />
 
       {xPoints.map((point, i) => (
         <Point key={i} x={point} y={fxPoints[i]} />
