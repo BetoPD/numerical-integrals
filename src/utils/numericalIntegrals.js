@@ -1,4 +1,5 @@
 export const Simpson = (ll, ul, n, func) => {
+  const start = performance.now();
   const deltaX = (ul - ll) / n;
 
   const xPoints = [];
@@ -27,11 +28,14 @@ export const Simpson = (ll, ul, n, func) => {
 
   result *= deltaX / 3;
 
-  return { result, xPoints, fxPoints: simpsonPoints };
+  const end = performance.now();
+
+  return { result, xPoints, fxPoints: simpsonPoints, time: end - start };
 };
 
 export const Trapezoid = (ll, ul, n, func) => {
   // Grid spacing
+  const start = performance.now();
   let deltaX = (ul - ll) / n;
 
   // Computing sum of first and last terms
@@ -55,7 +59,7 @@ export const Trapezoid = (ll, ul, n, func) => {
 
   const result = (deltaX / 2) * s;
 
-  console.log(result);
+  const end = performance.now();
 
-  return { result, xPoints, fxPoints };
+  return { result, xPoints, fxPoints, time: end - start };
 };

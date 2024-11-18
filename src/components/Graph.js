@@ -1,7 +1,14 @@
 import React from 'react';
 import { Mafs, Coordinates, Plot, Text, Point, Polyline } from 'mafs';
 
-export default function Graph({ title, result, fx, xPoints, fxPoints }) {
+export default function Graph({
+  title,
+  result,
+  fx,
+  xPoints,
+  fxPoints,
+  benchmark,
+}) {
   return (
     <Mafs viewBox={{ x: [-10, 10], y: [-10, 10] }} preserveAspectRatio={false}>
       <Coordinates.Cartesian subdivisions={4} />
@@ -22,6 +29,10 @@ export default function Graph({ title, result, fx, xPoints, fxPoints }) {
 
       <Text x={5} y={5}>
         Result: {result}
+      </Text>
+
+      <Text x={-5} y={-5}>
+        Benchmark: {benchmark}
       </Text>
 
       <Polyline points={xPoints.map((x, i) => [x, fxPoints[i]])} color="blue" />

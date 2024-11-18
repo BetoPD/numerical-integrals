@@ -23,6 +23,7 @@ export default function Graphs() {
   const [xPoints, setXPoints] = useState([]);
   const [resPoints, setResPoints] = useState([]);
   const [index, setIndex] = useState(0);
+  const [time, setTime] = useState(0);
 
   const compiled = useMemo(() => {
     try {
@@ -35,21 +36,22 @@ export default function Graphs() {
 
   const graphResult = useMemo(() => {
     if (compiled) {
-      const { result, xPoints, fxPoints } = graphConfigs[index].calculate(
+      const { result, xPoints, fxPoints, time } = graphConfigs[index].calculate(
         Number(lowerLimit),
         Number(upperLimit),
         Math.max(2, Math.floor(n)), // Ensure valid `n`
         compiled
       );
-      return { result, xPoints, fxPoints };
+      return { result, xPoints, fxPoints, time };
     }
-    return { result: 0, xPoints: [], fxPoints: [] };
+    return { result: 0, xPoints: [], fxPoints: [], time: 0 };
   }, [lowerLimit, upperLimit, n, compiled, index]);
 
   useEffect(() => {
     setRes(graphResult.result);
     setXPoints(graphResult.xPoints);
     setResPoints(graphResult.fxPoints);
+    setTime(graphResult.time);
   }, [graphResult]);
 
   const HandleNext = () => {
@@ -68,6 +70,7 @@ export default function Graphs() {
           result={res.toFixed(2)}
           xPoints={xPoints}
           fxPoints={resPoints}
+          benchmark={time.toFixed(3)}
         />
       ) : (
         <div style={{ color: 'red', textAlign: 'center' }}>
