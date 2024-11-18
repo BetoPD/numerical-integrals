@@ -6,7 +6,7 @@ const paramsSlice = createSlice({
     func: 'x ^ 2',
     lowerLimit: 0,
     upperLimit: 1,
-    n: 1,
+    n: 2,
   },
   reducers: {
     setFunction: (state, action) => {
