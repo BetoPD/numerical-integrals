@@ -4,13 +4,21 @@ import { Simpson } from '../utils/numericalIntegrals';
 import { useSelector } from 'react-redux';
 import { parse } from 'mathjs';
 
+export const graphConfigs = [
+  {
+    title: "Simpson's Rule",
+    calculate: Simpson,
+  },
+];
+
 export default function Graphs() {
   const { lowerLimit, upperLimit, n, func } = useSelector(
     (state) => state.params
   );
-  const [simpson, setSimpson] = useState(0);
+  const [res, setRes] = useState(0);
   const [xPoints, setXPoints] = useState([]);
-  const [simpsonPoints, setSimpsonPoints] = useState([]);
+  const [resPoints, setResPoints] = useState([]);
+  const [index, setIndex] = useState(0);
 
   const compiled = useMemo(() => {
     try {
@@ -21,35 +29,55 @@ export default function Graphs() {
     }
   }, [func]);
 
-  useEffect(() => {
+  const graphResult = useMemo(() => {
     if (compiled) {
-      const { result, xPoints, fxPoints } = Simpson(
+      const { result, xPoints, fxPoints } = graphConfigs[index].calculate(
         Number(lowerLimit),
         Number(upperLimit),
-        Number(n),
+        Math.max(2, Math.floor(n)), // Ensure valid `n`
         compiled
       );
-      setSimpson(result);
-      setXPoints(xPoints);
-      setSimpsonPoints(fxPoints);
+      return { result, xPoints, fxPoints };
     }
-  }, [lowerLimit, upperLimit, n, compiled]);
+    return { result: 0, xPoints: [], fxPoints: [] };
+  }, [lowerLimit, upperLimit, n, compiled, index]);
+
+  useEffect(() => {
+    setRes(graphResult.result);
+    setXPoints(graphResult.xPoints);
+    setResPoints(graphResult.fxPoints);
+  }, [graphResult]);
+
+  const HandleNext = () => {
+    setIndex((i) => (i === graphConfigs.length - 1 ? 0 : i + 1));
+  };
+  const HandlePrev = () => {
+    setIndex((i) => (i === 0 ? graphConfigs.length - 1 : i - 1));
+  };
 
   return (
     <div className="card m-auto p-3">
       {compiled ? (
         <Graph
-          title="Simpson's Rule"
+          title={graphConfigs[index].title}
           fx={compiled}
-          result={simpson.toFixed(2)}
+          result={res.toFixed(2)}
           xPoints={xPoints}
-          fxPoints={simpsonPoints}
+          fxPoints={resPoints}
         />
       ) : (
         <div style={{ color: 'red', textAlign: 'center' }}>
           Invalid mathematical function. Please check your input.
         </div>
       )}
+      <div className="mt-3 d-flex">
+        <button className="btn btn-primary me-2 m-auto" onClick={HandlePrev}>
+          Anterior
+        </button>
+        <button className="btn btn-primary m-auto" onClick={HandleNext}>
+          Siguiente
+        </button>
+      </div>
     </div>
   );
 }
