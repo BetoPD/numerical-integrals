@@ -29,3 +29,33 @@ export const Simpson = (ll, ul, n, func) => {
 
   return { result, xPoints, fxPoints: simpsonPoints };
 };
+
+export const Trapezoid = (ll, ul, n, func) => {
+  // Grid spacing
+  let deltaX = (ul - ll) / n;
+
+  // Computing sum of first and last terms
+  // in above formula
+  let s = func.evaluate({ x: ll }) + func.evaluate({ x: ul });
+  const xPoints = [ll];
+  const fxPoints = [func.evaluate({ x: ll })];
+
+  // Adding middle terms in above formula
+  for (let i = 1; i < n; i++) {
+    const x = ll + i * deltaX;
+    xPoints.push(x);
+    s += 2 * func.evaluate({ x });
+    fxPoints.push(func.evaluate({ x: 2 * func.evaluate({ x }) }));
+  }
+  xPoints.push(ul);
+  fxPoints.push(func.evaluate({ x: ul }));
+
+  // deltaX/2 indicates (ul-ll)/2n. Multiplying deltaX/2
+  // with s.
+
+  const result = (deltaX / 2) * s;
+
+  console.log(result);
+
+  return { result, xPoints, fxPoints };
+};

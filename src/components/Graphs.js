@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Graph from './Graph';
-import { Simpson } from '../utils/numericalIntegrals';
+import { Simpson, Trapezoid } from '../utils/numericalIntegrals';
 import { useSelector } from 'react-redux';
 import { parse } from 'mathjs';
 
@@ -8,6 +8,10 @@ export const graphConfigs = [
   {
     title: "Simpson's Rule",
     calculate: Simpson,
+  },
+  {
+    title: "Tapezoid's Rule",
+    calculate: Trapezoid,
   },
 ];
 
