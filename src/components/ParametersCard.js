@@ -29,6 +29,11 @@ export default function ParametersCard() {
       return;
     }
 
+    if (!fx.includes('x')) {
+      toast.error('Function must contain x');
+      return;
+    }
+
     dispatch(setFunction(fx));
     dispatch(setLowerLimit(ll));
     dispatch(setUpperLimit(ul));
