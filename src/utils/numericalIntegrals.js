@@ -63,3 +63,44 @@ export const Trapezoid = (ll, ul, n, func) => {
 
   return { result, xPoints, fxPoints, time: end - start };
 };
+
+export const Romberg = (ll, ul, n, func) => {
+  const start = performance.now(); 
+
+  const matrizRomberg = Array.from({ length: n }, () => Array(n).fill(0));
+  const xPoints = []; 
+  const fxPoints = []; 
+
+  let h = ul - ll;
+  matrizRomberg[0][0] =
+    0.5 * h * (func.evaluate({ x: ll }) + func.evaluate({ x: ul }));
+  xPoints.push(ll, ul);
+  fxPoints.push(func.evaluate({ x: ll }), func.evaluate({ x: ul }));
+
+  for (let i = 1; i < n; i++) {
+    h /= 2;
+    let sumMidpoints = 0;
+
+    for (let k = 1; k < 2 ** i; k += 2) {
+      const x = ll + k * h;
+      sumMidpoints += func.evaluate({ x });
+      if (!xPoints.includes(x)) {
+        xPoints.push(x); 
+        fxPoints.push(func.evaluate({ x }));
+      }
+    }
+
+    matrizRomberg[i][0] = 0.5 * matrizRomberg[i - 1][0] + h * sumMidpoints;
+
+    for (let j = 1; j <= i; j++) {
+      matrizRomberg[i][j] =
+        (4 ** j * matrizRomberg[i][j - 1] - matrizRomberg[i - 1][j - 1]) /
+        (4 ** j - 1);
+    }
+  }
+
+  const result = matrizRomberg[n - 1][n - 1];
+  const end = performance.now(); 
+
+  return { result, xPoints, fxPoints, time: end - start };
+};
