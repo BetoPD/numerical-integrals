@@ -8,6 +8,7 @@ export default function Graph({
   xPoints,
   fxPoints,
   benchmark,
+  isRomberg,
 }) {
   return (
     <Mafs viewBox={{ x: [-10, 10], y: [-10, 10] }} preserveAspectRatio={false}>
@@ -35,7 +36,12 @@ export default function Graph({
         Benchmark: {benchmark}
       </Text>
 
-      <Polyline points={xPoints.map((x, i) => [x, fxPoints[i]])} color="blue" />
+      {isRomberg && (
+        <Polyline
+          points={xPoints.map((x, i) => [x, fxPoints[i]])}
+          color="blue"
+        />
+      )}
 
       {xPoints.map((point, i) => (
         <Point key={i} x={point} y={fxPoints[i]} />

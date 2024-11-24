@@ -75,6 +75,7 @@ export default function Graphs() {
           xPoints={xPoints}
           fxPoints={resPoints}
           benchmark={time.toFixed(3)}
+          isRomberg={graphConfigs[index].title !== 'Romberg'}
         />
       ) : (
         <div style={{ color: 'red', textAlign: 'center' }}>
