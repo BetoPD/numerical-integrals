@@ -34,6 +34,11 @@ export default function ParametersCard() {
       return;
     }
 
+    if (fx.includes('ln')) {
+      toast.error('Use log(x, base) instead of ln(x)');
+      return;
+    }
+
     dispatch(setFunction(fx));
     dispatch(setLowerLimit(ll));
     dispatch(setUpperLimit(ul));

@@ -43,7 +43,7 @@ export default function Graphs() {
       const { result, xPoints, fxPoints, time } = graphConfigs[index].calculate(
         Number(lowerLimit),
         Number(upperLimit),
-        Math.max(2, Math.floor(n)), // Ensure valid `n`
+        Math.max(2, Math.floor(n)),
         compiled
       );
       return { result, xPoints, fxPoints, time };
