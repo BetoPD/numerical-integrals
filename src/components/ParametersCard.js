@@ -9,41 +9,48 @@ import {
 import toast from 'react-hot-toast';
 
 export default function ParametersCard() {
+  // Initialize the state of the function, lower limit, upper limit, and number of divisions
   const [fx, setFx] = useState('x ^ 2');
   const [ll, setLl] = useState(0);
   const [ul, setUl] = useState(1);
   const [divisions, setDivisions] = useState(2);
 
+  // Initialize the dispatch function that will be used to update the state (values of our app)
   const dispatch = useDispatch();
 
+  // Handle the submit event
   const HandleSubmit = (e) => {
     e.preventDefault();
 
+    // Lower limit must be less than upper limit
     if (Number(ll) >= Number(ul)) {
       toast.error("Lower limit can't be equal or bigger than upper limit");
       return;
     }
 
+    // Divisions must be greater or equal to 1
     if (Number(divisions) < 1) {
       toast.error('Divisions must be greater or equal to 1');
       return;
     }
 
+    // Function must contain x
     if (!fx.includes('x')) {
       toast.error('Function must contain x');
       return;
     }
 
+    // Function must not contain ln, instead use log(x, base)
     if (fx.includes('ln')) {
       toast.error('Use log(x, base) instead of ln(x)');
       return;
     }
 
+    // Dispatch the new values to the state
     dispatch(setFunction(fx));
     dispatch(setLowerLimit(ll));
     dispatch(setUpperLimit(ul));
     dispatch(setN(divisions));
-
     toast.success('Great!!');
   };
 
