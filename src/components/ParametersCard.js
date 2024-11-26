@@ -46,6 +46,11 @@ export default function ParametersCard() {
       return;
     }
 
+    if (fx.includes('sen')) {
+      toast.error('Use sin(x) instead of sen(x)');
+      return;
+    }
+
     // Dispatch the new values to the state
     dispatch(setFunction(fx));
     dispatch(setLowerLimit(ll));
